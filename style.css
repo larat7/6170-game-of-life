@@ -1,5 +1,5 @@
-#game {
-  width: 17px;
+.table {
+  width: auto;
 }
 
 #cell.alive {

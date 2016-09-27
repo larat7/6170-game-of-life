@@ -1,3 +1,4 @@
+// TODO: add test cases for all methods
 (function() {
   mocha.setup("bdd");
   var assert = chai.assert;

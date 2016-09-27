@@ -1,37 +1,61 @@
-// Representation of the game of life.
+/**
+ * Representation of the game of life.
+ */
 
 var Game = function() {
   var that = Object.create(Game.prototype);
   // the game board
-  var board = Board(20, 20  );
+  var board = Board(32, 18);
   var gameLoop;
   var timestep = 1000;  // in milliseconds
-  var is_running = false;
+  var running = false;
 
+  /**
+   * returns a matrix representation of the board
+   * @return {array of arrays} a matrix representation of the board
+   */
   that.getBoard = function() {
-    return board.asMatrix();
+    return board.getRows();
   }
 
-  // if the game is running, stop it.
+  /**
+   * clears the board, killing all its cells.
+   * @return {void}
+   */
+  that.clear = function() {
+    board.clear();
+  }
+
+  /**
+   * stops the game, if it is running.
+   * @return {void}
+   */
   that.stop = function() {
-    if (is_running) {
+    if (running) {
       clearInterval(gameLoop);
-      is_running = false;
+      running = false;
     }
   };
 
-  // if the game is not running, start it.
+  /**
+   * starts the game, if it is not running.
+   * @return {void}
+   */
   that.start = function() {
-    if (!is_running) {
+    if (!running) {
       gameLoop = setInterval(function() {
         board.update();
       }, timestep);
-      is_running = true;
+      running = true;
     }
   };
 
+  /**
+   * returns whether the game is running of not
+   * @return {boolean} true if the game is running, false otherwise
+   */
   that.isRunning = function(){
-    return is_running;
+    return running;
   }
 
   Object.freeze(that);

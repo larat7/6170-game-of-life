@@ -1,8 +1,29 @@
 GameWidget_install = function(domContainer, game) {
   var tableElm = $("<table class='table table-bordered'>");
   var tableBody = $("<tbody>");
+  var btnGroup = $("<div class='btn-group' role='group'>")
   tableElm.append(tableBody);
   domContainer.append(tableElm);
+  domContainer.append(btnGroup);
+
+  var createButton = function(label, action) {
+    var btn = $("<button type='button' class='btn btn-default'></button>")
+      .text(label)
+      .click(function(event) {
+        action();
+      });;
+    return btn;
+  }
+
+  var builtControlBar = function() {
+    var startBtn = createButton("Start", function() { game.start(); })
+    var stopBtn = createButton("Stop", function() { game.stop(); })
+    var clearBtn = createButton("Clear", function() { game.clear(); })
+
+    btnGroup.append(startBtn);
+    btnGroup.append(stopBtn);
+    btnGroup.append(clearBtn);
+  }
 
   var buildTable = function() {
     var newTableBody = $("<tbody>");
@@ -31,4 +52,5 @@ GameWidget_install = function(domContainer, game) {
   };
 
   buildTable();
+  builtControlBar();
 }
