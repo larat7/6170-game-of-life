@@ -1,0 +1,11 @@
+#game {
+  width: 17px;
+}
+
+#cell.alive {
+  background-color: #333;
+}
+
+#cell.dead {
+  background-color: #fff;
+}

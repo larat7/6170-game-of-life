@@ -2,20 +2,21 @@
 <html>
 <head>
   <title>6.170 Assignment 2: Game of Life</title>
-  <link rel="stylesheet" href="./index.css" type="text/css" charset="utf-8">
+  <link rel="stylesheet" href="./style.css" type="text/css" charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
 </head>
 
 <body>
+  <h1>Game of Life</h1>
+  <div id="game"></div>
 
-  <input id="search-term-input" type="text" placeholder="Type something...">
-  <ul id="results-list"></ul>
-
-  <!--
-    The order you import your *.js files matters! If y.js depends on x.js, then import x.js before
-    y.js.
-
-    In a full-fledged JavaScript project, we could use a tool like Browserify (http://browserify.org/) or Webpack (https://webpack.github.io/) to figure out the order of the dependencies for us.
-  -->
-  <script src="./main.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript" src="utils.js"></script>
+  <script type="text/javascript" src="cell.js"></script>
+  <script type="text/javascript" src="board.js"></script>
+  <script type="text/javascript" src="game.js"></script>
+  <script type="text/javascript" src="gamewidget.js"></script>
+  <script type="text/javascript" src="main.js"></script>
 </body>
 </html>
