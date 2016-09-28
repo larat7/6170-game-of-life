@@ -2,14 +2,31 @@
  * Representation of the game of life.
  */
 
-var Game = function() {
+var Game = function(width, height) {
   var that = Object.create(Game.prototype);
   // the game board
-  var board = Board(32, 18);
+  var board = Board(width, height);
   var gameLoop;
-  var timestep = 1000;  // in milliseconds
+  var timestep = 500;  // in milliseconds
   var running = false;
 
+
+  /**
+   * sets a pattern to the board
+   * @param {string} pattern the name of the pattern
+   * @return {boolean} true if pattern exist, false otherwise
+   */
+  that.setPattern = function(pattern) {
+    return board.setPattern(pattern);
+  }
+
+  /**
+   * gets the preset patterns in the board
+   * @return {array} an array of strings with the preset patterns names
+   */
+  that.getPresetPatterns = function() {
+    return board.getPresetPatterns();
+  }
   /**
    * returns a matrix representation of the board
    * @return {array of arrays} a matrix representation of the board

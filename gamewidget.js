@@ -1,11 +1,13 @@
 GameWidget_install = function(domContainer, game) {
-  var tableElm = $("<table class='table table-bordered'>");
-  var tableBody = $("<tbody>");
-  var btnGroup = $("<div class='btn-group' role='group'>")
-  tableElm.append(tableBody);
-  domContainer.append(tableElm);
-  domContainer.append(btnGroup);
+  var tableBody = $("#game-body");
+  var btnGroup = $("#btn-control")
 
+  /**
+   * creates a button for the control panel
+   * @param  {string}   label  the button label
+   * @param  {function} action function to be called when button is clicked
+   * @return {obj}             the button object
+   */
   var createButton = function(label, action) {
     var btn = $("<button type='button' class='btn btn-default'></button>")
       .text(label)
@@ -15,7 +17,25 @@ GameWidget_install = function(domContainer, game) {
     return btn;
   }
 
-  var builtControlBar = function() {
+  /**
+   * adds dropdown menu with preset patterns to the control panel
+   */
+  var addDropdownPatterns = function() {
+    var dropdown = $("#patterns-dropdown");
+    $.each(game.getPresetPatterns(), function(idx, pattern) {
+      var item = $("<li>");
+      var href = $("<a href='#'>").text(pattern).click(function(){
+        game.setPattern(pattern);
+      });
+      item.append(href);
+      dropdown.append(item);
+    });
+  }
+
+  /**
+   * adds buttons to the control panel
+   */
+  var buildControlBar = function() {
     var startBtn = createButton("Start", function() { game.start(); })
     var stopBtn = createButton("Stop", function() { game.stop(); })
     var clearBtn = createButton("Clear", function() { game.clear(); })
@@ -25,8 +45,10 @@ GameWidget_install = function(domContainer, game) {
     btnGroup.append(clearBtn);
   }
 
+  /**
+   * builds table representing the board.
+   */
   var buildTable = function() {
-    var newTableBody = $("<tbody>");
     $.each(game.getBoard(), function(row, value) {
       var tableRow = $("<tr>");
         $.each(value, function(col, cell){
@@ -44,13 +66,11 @@ GameWidget_install = function(domContainer, game) {
 
           tableRow.append(cellElm);
         })
-      newTableBody.append(tableRow)
+      tableBody.append(tableRow)
     });
-
-    tableBody.replaceWith(newTableBody);
-    tableBody = newTableBody;
   };
 
+  addDropdownPatterns();
   buildTable();
-  builtControlBar();
+  buildControlBar();
 }

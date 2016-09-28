@@ -13,7 +13,6 @@ var Board = function(width, height) {
                         })
                       }).flatten()
                       .filterNull();
-
   // an array representation of the board
   var board = [];
 
@@ -58,7 +57,7 @@ var Board = function(width, height) {
    * @return {void}
    */
   that.clear = function() {
-    forEachCell(function(cell) { cell.clear(); });
+    forEachCell(function(cell) { cell.setState(0); });
   }
 
   /**
@@ -117,6 +116,72 @@ var Board = function(width, height) {
       neighbors.push(getNeighbors(idx));
     });
   }
+
+  /**
+   * applies a pattern to the board
+   * @param {string} pattern name of the pattern to be applied
+   * @return {boolean} true if pattern exists, false otherwise
+   */
+  that.setPattern = function(pattern) {
+    that.clear();
+    var patternArr = BOARD_PATTERNS[pattern]();
+    if (!patternArr) { return false; }
+    patternArr.forEach(function(idx) {
+      board[idx].setState(1);
+    })
+
+    return true;
+  }
+
+  /**
+   * get the list of names of the preset pattern in the board
+   * @return {array} array with the names of the patterns
+   */
+  that.getPresetPatterns = function() {
+    return Object.keys(BOARD_PATTERNS);
+  }
+
+  // BOARD PATTERNS CREATORS
+  // the functions below create preset patterns for the board
+  // they return a list of indexes of cells that should be alive in the
+  // start of the pattern
+  var randomPattern = function() {
+    return board.map(function(el, idx){
+                  return idx;
+               }).filter(function(){
+                  return Math.random() < 0.5;
+               })
+  }
+
+  var glideAndExplodePattern = function() {
+    return addGlider(width, 0, 0)
+          .concat(addGlider(width, 0, 5))
+          .concat(addGlider(width, 0, 10))
+          .concat(addExploder(width, 5, 0))
+          .concat(addExploder(width, 5, 5))
+          .concat(addExploder(width, 5, 10));
+  }
+
+  var allTheThingsPattern = function() {
+    return addBeacon(width, 1, 1)
+          .concat(addGlider(width, 5, 5))
+          .concat(addSpaceship(width, 10, 10))
+          .concat(addExploder(width, 10, 20));
+  }
+
+  var allTheSpaceshipsPattern = function(){
+    return Array(3).fill(0).reduce(function(prev, cur, idx){
+      return prev.concat(addSpaceship(width, idx*5, idx*5));
+    }, []);
+  }
+
+  // preset board patterns
+  var BOARD_PATTERNS = {
+                         "glide and explode": glideAndExplodePattern,
+                         "all the things": allTheThingsPattern,
+                         "all the spaceships": allTheSpaceshipsPattern,
+                         "random": randomPattern
+                        };
 
   createBoard(width, height);
   Object.freeze(that);

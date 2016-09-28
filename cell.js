@@ -78,11 +78,12 @@ var Cell = function(state) {
   }
 
   /**
-   * clears the state of the cell, setting it to dead.
+   * sets the state of the cell
+   * @params {int}  the new state of the cell, 1 for alive, 0 for dead.
    * @return {void}
    */
-  that.clear = function() {
-    state = 0;
+  that.setState = function(s) {
+    state = s;
     publish();
   }
 
